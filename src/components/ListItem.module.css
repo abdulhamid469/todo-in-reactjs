@@ -1,0 +1,29 @@
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(228, 228, 228);
+    padding: 0px 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 50px;
+}
+.item:hover {
+    background-color: blanchedalmond;
+}
+.item button {
+    background-color: transparent;
+    border: none;
+    width: 30px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.item button:hover {
+    transform: scale(0.8);
+}
+.item .doneBtn {
+    color: darkgreen;
+}
+.item .deleteBtn {
+    color: darkred;
+}
