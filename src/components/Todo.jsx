@@ -4,23 +4,9 @@ import ListItem from "./ListItem";
 
 const Todo = () => {
 
-    const [list, setList] = useState([
-        {
-            id: 1,
-            name: "Learning React JS",
-            status: "pending"
-        },
-        {
-            id: 2,
-            name: "Learning UseState",
-            status: "completed"
-        },
-        {
-            id: 3,
-            name: "Learning JSX",
-            status: "pending"
-        },
-    ]);
+    const taskList = JSON.parse(localStorage.getItem("tasks"));
+
+    const [list, setList] = useState([taskList]);
 
     // Input
     const [input, setInput] = useState("");
@@ -38,8 +24,27 @@ const Todo = () => {
         }
         const prevTask = list;
         setList([...prevTask, task]);
+        setInput("");
+        localStorage.setItem("tasks", JSON.stringify([...prevTask, task]));
     }
 
+    const clearAllTask = () => {
+        setList([]);
+    }
+    const markDoneHandler = (id) => {
+        const updatedList = list.map((element) => {
+            if (element.id === id ) element.status = "completed";
+            return element;
+        });
+
+        setList(updatedList);
+    }
+    const markDeleteHandler = (id) => {
+        const deletedList = list.filter((element) =>{
+           return element.id !== id;
+        });
+        setList(deletedList);
+    }
 
   return (
     <div className={styles.main_container}>
@@ -57,15 +62,18 @@ const Todo = () => {
         <h3>Your All Tasks</h3>
         <ul>
             {
-                list.map((elements, key) => (
-                    <ListItem task={elements} key={elements.id} />
+                list.map((elements) => (
+                    <ListItem task={elements} onDone={markDoneHandler} onDelete={markDeleteHandler} />
                 ))
             }
         </ul>
-
-        <div>
-            <button className={styles.clearAll}>Clear All</button>
-        </div>
+        {
+            list.length !== 0 && (
+                <div>
+                    <button className={styles.clearAll} onClick={clearAllTask}>Clear All</button>
+                </div>
+            )
+        }
 
     </div>
   )
