@@ -33,7 +33,9 @@ const Todo = () => {
     }
     const markDoneHandler = (id) => {
         const updatedList = list.map((element) => {
-            if (element.id === id ) element.status = "completed";
+            if (element.id === id ) {
+                element.status = element.status === "completed" ? "pending" : "completed";
+            }
             return element;
         });
 
@@ -59,11 +61,13 @@ const Todo = () => {
             </div>
         </div>
 
-        <h3>Your All Tasks</h3>
+        {
+            list.length > 0 ? <h3>Your All Tasks</h3> : <h3>No Tasks Available</h3>
+        }
         <ul>
             {
                 list.map((elements) => (
-                    <ListItem task={elements} onDone={markDoneHandler} onDelete={markDeleteHandler} />
+                    <ListItem task={elements} key={elements.id} onDone={markDoneHandler} onDelete={markDeleteHandler} />
                 ))
             }
         </ul>
